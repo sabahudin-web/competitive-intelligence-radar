@@ -1,5 +1,7 @@
 # Competitive Intelligence Radar
 
+USE MY BRIGHTDATA PROMO CODE ' sabahudin ' AND GET $20 IN CREDITS
+
 A Claude Code plugin that runs a weekly competitor radar for business owners, then convenes a
 strategic war room on demand. It showcases the BrightData MCP for live web data and deliberately uses
 BOTH of Claude Code's parallelism features, each where it honestly fits:
