@@ -1,0 +1,21 @@
+{
+  "name": "competitive-intelligence-radar",
+  "version": "0.1.0",
+  "description": "Weekly competitor radar for business owners. Gathers cited intelligence with parallel BrightData scout subagents, then convenes a real agent team of strategic analysts to debate the moves. Publishes to a local folder, Notion, and a self-contained HTML dashboard.",
+  "keywords": [
+    "competitive-intelligence",
+    "brightdata",
+    "notion",
+    "agent-teams",
+    "subagents",
+    "market-research",
+    "business"
+  ],
+  "author": {
+    "name": "Competitive Intelligence Radar"
+  },
+  "license": "MIT",
+  "commands": "./commands",
+  "agents": "./agents",
+  "skills": "./skills"
+}

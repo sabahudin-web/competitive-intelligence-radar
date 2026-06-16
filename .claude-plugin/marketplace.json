@@ -1,0 +1,17 @@
+{
+  "name": "competitive-intelligence-radar",
+  "owner": {
+    "name": "Competitive Intelligence Radar"
+  },
+  "metadata": {
+    "description": "A single-plugin marketplace. This repository is its own marketplace, so you can add it directly and install the Competitive Intelligence Radar plugin from it.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "competitive-intelligence-radar",
+      "source": "./",
+      "description": "Weekly competitor radar: parallel BrightData scout subagents gather a cited briefing, then a real agent team of strategic analysts debates the moves. Publishes to a local folder, Notion, and a self-contained HTML dashboard."
+    }
+  ]
+}

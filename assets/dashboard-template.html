@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Competitive Intelligence Radar</title>
+<style>
+  :root{
+    --bg:#eef1f4; --card:#ffffff; --line:#e3e8ee; --line2:#d7dee6;
+    --text:#172230; --muted:#647284; --faint:#93a0b0;
+    --teal:#0f9488; --teal-d:#0c6b62; --cyan:#22c2b5;
+    --amber:#f2a93b; --coral:#ef6c4d; --blue:#2f80ed; --purple:#7b61ff;
+    --high:#e0604f; --medium:#f2a93b; --low:#2bb673;
+    --rising:#e0604f; --falling:#2bb673; --price:#2f80ed; --news:#0f9488; --new:#7b61ff;
+    --radius:14px; --shadow:0 1px 2px rgba(20,40,70,.06),0 2px 8px rgba(20,40,70,.05);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .app{max-width:1240px;margin:0 auto;padding:22px 26px 72px;}
+  /* header */
+  .head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .logo{width:44px;height:44px;border-radius:12px;background:var(--teal);position:relative;flex:none;
+    box-shadow:var(--shadow);}
+  .logo::before{content:"";position:absolute;inset:11px;border-radius:50%;border:3px solid #fff;}
+  .logo::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -1px;
+    background:var(--amber);border-radius:50%;}
+  .brand h1{margin:0;font-size:21px;font-weight:700;letter-spacing:.2px;}
+  .brand .biz{color:var(--muted);font-size:13px;margin-top:1px;}
+  .head .meta{text-align:right;color:var(--muted);font-size:12.5px;}
+  .head .meta .date{color:var(--text);font-weight:600;font-size:14px;}
+  .badge-live{display:inline-flex;align-items:center;gap:6px;background:#e7f6f0;color:var(--teal-d);
+    font-weight:600;font-size:11px;padding:3px 9px;border-radius:999px;margin-top:6px;}
+  .badge-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);}
+  /* kpis */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;}
+  .kpi{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;
+    position:relative;overflow:hidden;}
+  .kpi .accent{position:absolute;left:0;top:0;bottom:0;width:5px;}
+  .kpi .label{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.5px;}
+  .kpi .num{font-size:30px;font-weight:700;line-height:1.1;margin-top:6px;}
+  .kpi .hint{color:var(--faint);font-size:11.5px;margin-top:3px;}
+  /* layout */
+  h2{font-size:15px;font-weight:700;margin:24px 2px 12px;display:flex;align-items:center;gap:8px;}
+  h2 .pill{font-size:11px;font-weight:600;color:var(--muted);background:#eef2f6;border-radius:999px;
+    padding:2px 9px;}
+  .row3{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px;align-items:stretch;}
+  .panel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;}
+  .panel h3{margin:0 0 12px;font-size:13.5px;font-weight:700;color:var(--text);}
+  /* change feed */
+  .feed{display:flex;flex-direction:column;gap:2px;max-height:340px;overflow:auto;}
+  .feed .item{display:flex;gap:11px;align-items:flex-start;padding:10px 4px;border-bottom:1px solid var(--line);}
+  .feed .item:last-child{border-bottom:none;}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:3px 9px;border-radius:7px;white-space:nowrap;flex:none;margin-top:1px;}
+  .tag.RISING{background:#fdeae7;color:#b53d2a;} .tag.NEW{background:#efeaff;color:#5a3fcf;}
+  .tag.FALLING{background:#e6f6ec;color:#1c8a4e;} .tag.PRICE{background:#e7f0fd;color:#1f5fc4;}
+  .tag.NEWS{background:#e4f4f0;color:var(--teal-d);} .tag.STEADY{background:#eef2f6;color:#647284;}
+  .feed .txt{font-size:13px;}
+  .feed .who{font-weight:600;}
+  a,.src{color:var(--teal-d);text-decoration:none;font-weight:600;font-size:12px;}
+  a:hover{text-decoration:underline;}
+  /* bars (serp + signals) */
+  .barrow{display:flex;align-items:center;gap:10px;margin:9px 0;}
+  .barrow .name{width:120px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis;flex:none;}
+  .track{flex:1;height:18px;background:#eef2f6;border-radius:6px;overflow:hidden;}
+  .fill{height:100%;border-radius:6px;}
+  .barrow .val{width:46px;text-align:right;font-size:12.5px;font-weight:700;flex:none;}
+  .rankbadge{display:inline-block;min-width:22px;text-align:center;font-weight:700;font-size:12px;
+    padding:1px 6px;border-radius:6px;background:#eef2f6;color:var(--muted);}
+  .rankbadge.top{background:#e7f6f0;color:var(--teal-d);}
+  /* donut */
+  .donut-wrap{display:flex;align-items:center;gap:16px;}
+  .legend{font-size:12px;color:var(--muted);}
+  .legend .lg{display:flex;align-items:center;gap:7px;margin:5px 0;}
+  .legend .dot{width:11px;height:11px;border-radius:3px;flex:none;}
+  /* competitor cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;}
+  .ccard{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;
+    border-top:4px solid var(--line2);}
+  .ccard.high{border-top-color:var(--high);} .ccard.medium{border-top-color:var(--medium);}
+  .ccard.low{border-top-color:var(--low);}
+  .ccard .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;}
+  .ccard h3{margin:0;font-size:16px;font-weight:700;}
+  .ccard .dom{color:var(--muted);font-size:12px;}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px;}
+  .chip{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:#eef2f6;color:#647284;}
+  .chip.high{background:#fdeae7;color:#b53d2a;} .chip.medium{background:#fdf2e0;color:#9a6510;}
+  .chip.low{background:#e6f6ec;color:#1c8a4e;}
+  .chip.Rising{background:#fdeae7;color:#b53d2a;} .chip.Falling{background:#e6f6ec;color:#1c8a4e;}
+  .chip.New{background:#efeaff;color:#5a3fcf;} .chip.Steady{background:#eef2f6;color:#647284;}
+  .field{border-top:1px solid var(--line);padding:8px 0;}
+  .field:first-of-type{border-top:none;margin-top:4px;}
+  .field .k{color:var(--faint);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+  .field .v{font-size:13px;margin-top:1px;}
+  .field .m{color:var(--faint);font-size:11px;margin-top:2px;}
+  .st-blocked .v,.st-not_found .v{color:var(--faint);font-style:italic;}
+  .st-stale .m{color:var(--coral);}
+  /* war room */
+  .warroom{background:linear-gradient(0deg,var(--card),var(--card));border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:20px 22px;border-left:5px solid var(--teal);}
+  .warroom .sum{font-size:14px;margin:0 0 12px;}
+  .move{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;}
+  .move .t{font-weight:700;font-size:13.5px;}
+  .move .r{color:var(--muted);font-size:12.5px;margin-top:3px;}
+  .dissent{color:#9a6510;font-size:12.5px;background:#fdf2e0;border-radius:8px;padding:8px 12px;margin:6px 0;}
+  .empty{color:var(--muted);font-style:italic;padding:14px;text-align:center;}
+  /* filters */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 2px 4px;}
+  .filters input{height:34px;border:1px solid var(--line2);border-radius:9px;padding:0 12px;font-size:13px;
+    min-width:180px;outline:none;background:var(--card);}
+  .fchip{font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);
+    background:var(--card);color:var(--muted);cursor:pointer;user-select:none;}
+  .fchip.on{background:var(--teal);color:#fff;border-color:var(--teal);}
+  footer{color:var(--faint);font-size:12px;margin-top:26px;text-align:center;}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.row3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="head">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div><h1>Competitive Intelligence Radar</h1><div class="biz" id="biz"></div></div>
+    </div>
+    <div class="meta">
+      <div class="date" id="run-date"></div>
+      <div id="kw"></div>
+      <span class="badge-live">live web data</span>
+    </div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <h2>What changed since last run <span class="pill" id="change-count"></span></h2>
+  <div class="row3">
+    <div class="panel"><h3>Signal feed</h3><div class="feed" id="feed"></div></div>
+    <div class="panel"><h3>SERP leaderboard</h3><div id="serp"></div></div>
+    <div class="panel"><h3>Market sentiment</h3><div id="sentiment"></div></div>
+  </div>
+
+  <h2>Competitors <span class="pill" id="comp-count"></span></h2>
+  <div class="filters" id="filters">
+    <input id="search" type="text" placeholder="Filter competitors..." aria-label="Filter competitors" />
+  </div>
+  <div class="grid" id="competitors"></div>
+
+  <h2>Strategic war room</h2>
+  <div id="warroom"></div>
+
+  <footer id="footer"></footer>
+</div>
+
+<script id="radar-data" type="application/json">
+{{RADAR_DATA_JSON}}
+</script>
+<script>
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+  function cap(s){s=String(s||"");return s.charAt(0).toUpperCase()+s.slice(1);}
+  function srcLink(f){return f&&f.source_url?' <a href="'+esc(f.source_url)+'" target="_blank" rel="noopener">source</a>':"";}
+  function meta(f){if(!f)return"";var b=[];if(f.fetched_at)b.push("fetched "+esc(String(f.fetched_at).slice(0,10)));
+    if(f.status&&f.status!=="ok")b.push(esc(f.status));return b.length?'<div class="m">'+b.join(" / ")+'</div>':"";}
+  function val(f){return f&&f.value!=null&&f.value!==""?esc(f.value):(f&&f.status?"("+esc(f.status)+")":"(not gathered)");}
+
+  var data;try{data=JSON.parse(document.getElementById("radar-data").textContent);}catch(e){data=null;}
+  var SENT={positive:{c:"#2bb673",l:"Positive"},mixed:{c:"#f2a93b",l:"Mixed"},
+    negative:{c:"#e0604f",l:"Negative"},unknown:{c:"#9aa7b5",l:"Unknown"}};
+  var TYPE={RISING:"#e0604f",FALLING:"#2bb673",PRICE:"#2f80ed",NEWS:"#0f9488",NEW:"#7b61ff",STEADY:"#93a0b0"};
+
+  if(!data){document.getElementById("biz").textContent="No run data injected yet (empty template).";}
+  else{ render(); }
+
+  function render(){
+    var comps=data.competitors||[], changes=data.changes||[];
+    document.getElementById("biz").textContent=data.business_name||"";
+    document.getElementById("run-date").textContent="Run "+(data.run_date||"");
+    document.getElementById("kw").textContent="Keywords: "+((data.keywords||[]).join(", ")||"none");
+
+    // KPIs (use provided, else compute)
+    var k=data.kpis||{};
+    var rising=k.rising_threats!=null?k.rising_threats:changes.filter(function(c){return(c.type||"").toUpperCase()==="RISING";}).length;
+    var price=k.price_moves!=null?k.price_moves:changes.filter(function(c){return(c.type||"").toUpperCase()==="PRICE";}).length;
+    var news=k.new_signals!=null?k.new_signals:changes.filter(function(c){var t=(c.type||"").toUpperCase();return t==="NEW"||t==="NEWS";}).length;
+    var cited=k.cited_pct!=null?k.cited_pct:citedPct(comps);
+    var cards=[
+      ["Competitors",comps.length,"tracked this run","var(--teal)"],
+      ["Rising threats",rising,"gaining on you","var(--high)"],
+      ["Price moves",price,"pricing changes","var(--blue)"],
+      ["New signals",news,"new or fresh news","var(--purple)"],
+      ["Cited",cited+"%","claims with a source","var(--cyan)"]
+    ];
+    document.getElementById("kpis").innerHTML=cards.map(function(c){
+      return '<div class="kpi"><div class="accent" style="background:'+c[3]+'"></div>'+
+        '<div class="label">'+c[0]+'</div><div class="num">'+c[1]+'</div><div class="hint">'+c[2]+'</div></div>';
+    }).join("");
+
+    // feed
+    document.getElementById("change-count").textContent=changes.length+" signals";
+    var feed=document.getElementById("feed");
+    feed.innerHTML=changes.length?changes.map(function(c){
+      var t=(c.type||"STEADY").toUpperCase();
+      return '<div class="item"><span class="tag '+t+'">'+t+'</span><div class="txt">'+
+        (c.competitor?'<span class="who">'+esc(c.competitor)+'</span> ':"")+esc(c.text)+
+        (c.source_url?' <a href="'+esc(c.source_url)+'" target="_blank" rel="noopener">source</a>':"")+'</div></div>';
+    }).join(""):'<div class="empty">No material changes this run.</div>';
+
+    // serp leaderboard
+    var ranked=comps.filter(function(c){return c.serp_rank&&typeof c.serp_rank.value==="number";})
+      .map(function(c){return{name:c.name,rank:c.serp_rank.value};})
+      .sort(function(a,b){return a.rank-b.rank;});
+    var maxR=ranked.length?Math.max.apply(null,ranked.map(function(r){return r.rank;})):10;
+    document.getElementById("serp").innerHTML=ranked.length?ranked.map(function(r){
+      var w=Math.max(8,Math.round((maxR+1-r.rank)/(maxR+1)*100));
+      var top=r.rank<=3;
+      return '<div class="barrow"><div class="name" title="'+esc(r.name)+'">'+esc(r.name)+'</div>'+
+        '<div class="track"><div class="fill" style="width:'+w+'%;background:'+(top?"var(--teal)":"var(--cyan)")+'"></div></div>'+
+        '<div class="val"><span class="rankbadge'+(top?" top":"")+'">#'+r.rank+'</span></div></div>';
+    }).join("")+'<div class="m" style="color:var(--faint);font-size:11px;margin-top:8px">Best position across your tracked keywords. Lower is better.</div>'
+      :'<div class="empty">No SERP ranks gathered.</div>';
+
+    // sentiment donut
+    var counts={positive:0,mixed:0,negative:0,unknown:0};
+    comps.forEach(function(c){var raw=c.sentiment_label||(c.sentiment&&c.sentiment.value)||"unknown";
+      var v=String(raw).toLowerCase();if(counts[v]==null)v="unknown";counts[v]++;});
+    document.getElementById("sentiment").innerHTML=donut(counts);
+
+    // competitor cards
+    renderCards(comps);
+    buildFilters(comps);
+
+    // war room
+    var wr=document.getElementById("warroom"),w=data.war_room;
+    if(w&&(w.summary||(w.moves||[]).length)){
+      wr.innerHTML='<div class="warroom">'+(w.summary?'<p class="sum">'+esc(w.summary)+'</p>':"")+
+        (w.moves||[]).map(function(m){return '<div class="move"><div class="t">'+esc(m.title)+'</div><div class="r">'+esc(m.rationale)+'</div></div>';}).join("")+
+        ((w.dissents||[]).length?'<div style="margin-top:10px">'+(w.dissents).map(function(d){return '<div class="dissent">'+esc(d)+'</div>';}).join("")+'</div>':"")+
+        '</div>';
+    } else {
+      wr.innerHTML='<div class="panel"><div class="empty">No war room addendum yet. Run /radar-council to convene the analyst team.</div></div>';
+    }
+
+    document.getElementById("footer").textContent="Competitive Intelligence Radar. Every claim links to a live source. Data via BrightData. "+(data.run_date||"");
+  }
+
+  function citedPct(comps){
+    var tot=0,cited=0;
+    comps.forEach(function(c){["serp_rank","pricing","positioning","news","sentiment","funding","hiring"].forEach(function(f){
+      var x=c[f];if(x&&x.status==="ok"&&x.value!=null){tot++;if(x.source_url)cited++;}});});
+    return tot?Math.round(cited/tot*100):100;
+  }
+
+  function donut(counts){
+    var total=counts.positive+counts.mixed+counts.negative+counts.unknown;
+    var order=["positive","mixed","negative","unknown"];
+    if(!total)return '<div class="empty">No sentiment gathered.</div>';
+    var R=52,C=2*Math.PI*R,off=0,segs="";
+    order.forEach(function(k){var n=counts[k];if(!n)return;var frac=n/total,len=frac*C;
+      segs+='<circle cx="70" cy="70" r="'+R+'" fill="none" stroke="'+SENT[k].c+'" stroke-width="20" '+
+        'stroke-dasharray="'+len+' '+(C-len)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 70 70)"></circle>';
+      off+=len;});
+    var leg=order.map(function(k){var n=counts[k];if(!n)return"";
+      return '<div class="lg"><span class="dot" style="background:'+SENT[k].c+'"></span>'+SENT[k].l+' ('+n+')</div>';}).join("");
+    return '<div class="donut-wrap"><svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label="Sentiment distribution">'+
+      segs+'<text x="70" y="66" text-anchor="middle" font-size="22" font-weight="700" fill="#172230">'+total+'</text>'+
+      '<text x="70" y="84" text-anchor="middle" font-size="10" fill="#647284">RIVALS</text></svg><div class="legend">'+leg+'</div></div>';
+  }
+
+  function renderCards(comps){
+    document.getElementById("comp-count").textContent=comps.length+" tracked";
+    document.getElementById("competitors").innerHTML=comps.map(function(c,i){
+      var fields=[["SERP rank",c.serp_rank],["Pricing",c.pricing],["Positioning",c.positioning],
+        ["Latest news",c.news],["Sentiment",c.sentiment],["Funding / financials",c.funding],["Hiring signal",c.hiring]];
+      var rows=fields.filter(function(f){return f[1];}).map(function(f){var fl=f[1];
+        return '<div class="field st-'+esc(fl.status||"ok")+'"><div class="k">'+esc(f[0])+'</div>'+
+          '<div class="v">'+val(fl)+srcLink(fl)+'</div>'+meta(fl)+'</div>';}).join("");
+      var threat=(c.threat_level||"").toLowerCase();
+      var hay=(c.name+" "+(c.domain||"")+" "+threat+" "+(c.change||"")).toLowerCase();
+      return '<div class="ccard '+esc(threat)+'" data-hay="'+esc(hay)+'" data-threat="'+esc(threat)+'" data-change="'+esc((c.change||"").toLowerCase())+'">'+
+        '<div class="top"><div><h3>'+esc(c.name)+'</h3><div class="dom">'+esc(c.domain||"")+'</div></div></div>'+
+        '<div class="chips">'+(c.threat_level?'<span class="chip '+esc(threat)+'">threat '+esc(c.threat_level)+'</span>':"")+
+        (c.change?'<span class="chip '+esc(c.change)+'">'+esc(c.change)+'</span>':"")+'</div>'+rows+'</div>';
+    }).join("");
+  }
+
+  function buildFilters(comps){
+    var threats=[],changes=[];
+    comps.forEach(function(c){var t=(c.threat_level||"").toLowerCase();if(t&&threats.indexOf(t)<0)threats.push(t);
+      var ch=(c.change||"").toLowerCase();if(ch&&changes.indexOf(ch)<0)changes.push(ch);});
+    var box=document.getElementById("filters");
+    function chip(group,val,label){return '<span class="fchip" data-group="'+group+'" data-val="'+val+'">'+label+'</span>';}
+    var html="";
+    if(threats.length){html+='<span class="fchip on" data-group="threat" data-val="">All threats</span>';
+      ["high","medium","low"].forEach(function(t){if(threats.indexOf(t)>=0)html+=chip("threat",t,cap(t));});}
+    if(changes.length){html+='<span class="fchip on" data-group="change" data-val="">All changes</span>';
+      changes.forEach(function(ch){html+=chip("change",ch,cap(ch));});}
+    box.insertAdjacentHTML("beforeend",html);
+    var state={threat:"",change:"",q:""};
+    function apply(){document.querySelectorAll(".ccard").forEach(function(card){
+      var ok=(!state.threat||card.dataset.threat===state.threat)&&
+        (!state.change||card.dataset.change===state.change)&&
+        (!state.q||card.dataset.hay.indexOf(state.q)>=0);
+      card.style.display=ok?"":"none";});}
+    box.addEventListener("click",function(e){var t=e.target.closest(".fchip");if(!t)return;
+      var g=t.dataset.group;state[g]=t.dataset.val;
+      box.querySelectorAll('.fchip[data-group="'+g+'"]').forEach(function(x){x.classList.toggle("on",x===t);});
+      apply();});
+    document.getElementById("search").addEventListener("input",function(e){state.q=e.target.value.toLowerCase();apply();});
+  }
+</script>
+</body>
+</html>
