@@ -7,3 +7,8 @@
 *.jpeg binary
 *.gif binary
 *.pdf binary
+
+# Language stats: the dashboard template is a self-contained HTML asset, not the
+# project's source. This is a Markdown + JSON Claude Code plugin, so exclude the
+# template from the GitHub language bar to avoid mislabeling the repo as HTML.
+assets/dashboard-template.html linguist-vendored
