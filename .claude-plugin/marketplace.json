@@ -1,7 +1,8 @@
 {
   "name": "competitive-intelligence-radar",
   "owner": {
-    "name": "Competitive Intelligence Radar"
+    "name": "Sabahudin Murtic",
+    "url": "https://www.linkedin.com/in/sabahudin-murtic/"
   },
   "metadata": {
     "description": "A single-plugin marketplace. This repository is its own marketplace, so you can add it directly and install the Competitive Intelligence Radar plugin from it.",

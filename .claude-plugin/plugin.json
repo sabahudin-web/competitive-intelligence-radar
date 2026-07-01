@@ -12,10 +12,13 @@
     "business"
   ],
   "author": {
-    "name": "Competitive Intelligence Radar"
+    "name": "Sabahudin Murtic",
+    "url": "https://www.linkedin.com/in/sabahudin-murtic/"
   },
+  "homepage": "https://github.com/sabahudin-web/competitive-intelligence-radar",
+  "repository": "https://github.com/sabahudin-web/competitive-intelligence-radar",
   "license": "MIT",
-  "commands": "./commands",
-  "agents": "./agents",
-  "skills": "./skills"
+  "commands": ["./commands"],
+  "agents": ["./agents"],
+  "skills": ["./skills"]
 }

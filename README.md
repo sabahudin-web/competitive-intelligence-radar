@@ -1,6 +1,12 @@
+![Competitive intelligence radar](assets/banner.png)
+
+![License](https://img.shields.io/badge/license-MIT-463187)
+![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-463187)
+![BrightData](https://img.shields.io/badge/BrightData-MCP-FF6719)
+
 # Competitive Intelligence Radar
 
-USE MY BRIGHTDATA PROMO CODE ' sabahudin ' AND GET $20 IN CREDITS
+> Heads up: use the BrightData promo code `sabahudin` for $20 in free credits.
 
 A Claude Code plugin that runs a weekly competitor radar for business owners, then convenes a
 strategic war room on demand. It showcases the BrightData MCP for live web data and deliberately uses
@@ -34,14 +40,26 @@ talk to each other). The plugin never swaps them. See
 
 ## Install
 
-This repository is its own marketplace.
+This works the same whether you are starting fresh or adding it to a Claude Code setup you already use. A
+plugin is additive: it drops in its own commands, skills, and agents without touching the rest of your
+configuration. Nothing here overwrites your existing commands or settings.
+
+The repository is its own marketplace, so you add it straight from GitHub:
 
 ```
-/plugin marketplace add <your-repo-or-path>
-/plugin install competitive-intelligence-radar
+/plugin marketplace add sabahudin-web/competitive-intelligence-radar
+/plugin install competitive-intelligence-radar@competitive-intelligence-radar
 ```
 
 Then run `/radar-setup`.
+
+Prefer to read the code first? Clone the repo and point the marketplace at the local path instead:
+
+```
+git clone https://github.com/sabahudin-web/competitive-intelligence-radar.git
+/plugin marketplace add ./competitive-intelligence-radar
+/plugin install competitive-intelligence-radar@competitive-intelligence-radar
+```
 
 ## Connect BrightData and Notion
 
@@ -123,7 +141,7 @@ gitignored. The shared plugin is generic; nothing about your business is committ
 ```
 CLAUDE.md              orients Claude Code in this repo (architecture, rules, conventions)
 .claude-plugin/        plugin.json + marketplace.json
-.mcp.json              brightdata + notion servers (bare server-name keys)
+.mcp.json              brightdata + notion servers (standard mcpServers wrapper)
 commands/              /radar-setup, /radar, /radar-council
 agents/                competitor-scout (subagent) + 4 analyst teammate roles
 skills/                8 radar-* skills (onboard, provision, plan, diff, merge, publish, render)
@@ -134,6 +152,16 @@ assets/                briefing-template.md, dashboard-template.html
 outputs/               briefings/, dossiers/, dashboard/ (generated, gitignored)
 ```
 
+## Contributing
+
+Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first, and please keep to the
+[code of conduct](CODE_OF_CONDUCT.md). For anything security related, see [SECURITY.md](SECURITY.md).
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+---
+
+Built by **Sabahudin Murtic** ([Unstuck](https://www.linkedin.com/in/sabahudin-murtic/)).
+GitHub [@sabahudin-web](https://github.com/sabahudin-web) · LinkedIn [Sabahudin Murtic](https://www.linkedin.com/in/sabahudin-murtic/)

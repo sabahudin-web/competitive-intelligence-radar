@@ -4,6 +4,8 @@ radar.config.json
 # Secrets
 .env
 .env.*
+# but keep the committed example so others know what to set
+!.env.example
 
 # Generated run outputs and user analysis (keep the folders via .gitkeep, ignore ALL content).
 # This keeps every briefing, dossier, and dashboard (which contain the user's business data)

@@ -1,13 +1,15 @@
 {
-  "brightdata": {
-    "command": "npx",
-    "args": ["-y", "@brightdata/mcp"],
-    "env": {
-      "API_TOKEN": "${BRIGHTDATA_API_TOKEN}"
+  "mcpServers": {
+    "brightdata": {
+      "command": "npx",
+      "args": ["-y", "@brightdata/mcp"],
+      "env": {
+        "API_TOKEN": "${BRIGHTDATA_API_TOKEN}"
+      }
+    },
+    "notion": {
+      "type": "sse",
+      "url": "https://mcp.notion.com/sse"
     }
-  },
-  "notion": {
-    "type": "sse",
-    "url": "https://mcp.notion.com/sse"
   }
 }

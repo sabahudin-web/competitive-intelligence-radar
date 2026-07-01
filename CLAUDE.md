@@ -65,7 +65,7 @@ is why onboarding verifies the user's own connection. See `references/agent-team
 
 ```
 .claude-plugin/   plugin.json + marketplace.json (repo is its own marketplace, source "./")
-.mcp.json         brightdata + notion, bare server-name keys (no mcpServers wrapper)
+.mcp.json         brightdata + notion, standard "mcpServers" wrapper (auto-loaded by the plugin)
 commands/         /radar-setup, /radar, /radar-council (orchestrate only)
 agents/           competitor-scout (subagent, sonnet) + 4 analyst teammate roles (sonnet)
 skills/           radar-onboard, -provision-notion, -plan-targets, -diff-changes,

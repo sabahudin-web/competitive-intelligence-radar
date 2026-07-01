@@ -1,0 +1,9 @@
+# Normalize line endings so diffs stay clean across machines.
+* text=auto eol=lf
+
+# Treat these as binary (never normalized, never diffed as text).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
